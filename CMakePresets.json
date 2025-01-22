@@ -13,6 +13,7 @@
         "DEV_OPTIONS": "-gdwarf-3 -g3 -O3 -march=native -flto=auto -fuse-linker-plugin -fno-fat-lto-objects"
       },
       "cacheVariables": {
+        "BUILD_TESTING": true,
         "CMAKE_EXPORT_COMPILE_COMMANDS": true,
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_FLAGS": "-fdiagnostics-color=always -fdiagnostics-show-template-tree $env{DEV_OPTIONS} $env{WARNINGS}",
@@ -23,7 +24,8 @@
         "deprecated": true,
         "uninitialized": true
       }
-    }, {
+    },
+    {
       "name": "release",
       "displayName": "Release Build",
       "binaryDir": "cmake-build-release",
@@ -33,7 +35,8 @@
         "CMAKE_CXX_FLAGS": "-DNDEBUG -gdwarf-3 -O3 -march=native -flto=auto -fuse-linker-plugin -fno-fat-lto-objects $env{WARNINGS}",
         "CMAKE_INTERPROCEDURAL_OPTIMIZATION": true
       }
-    }, {
+    },
+    {
       "name": "debug",
       "displayName": "Debug Build",
       "binaryDir": "cmake-build-debug",
@@ -41,7 +44,8 @@
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-g -Og -march=native $env{WARNINGS}"
       }
-    }, {
+    },
+    {
       "name": "asan",
       "displayName": "Address Sanitizer",
       "binaryDir": "cmake-build-asan",
@@ -49,7 +53,8 @@
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-fsanitize=address,pointer-compare,pointer-subtract -fsanitize-address-use-after-scope -fstack-protector-strong $env{DEV_OPTIONS} $env{WARNINGS}"
       }
-    }, {
+    },
+    {
       "name": "ubsan",
       "displayName": "Undefined Behavior Sanitizer",
       "binaryDir": "cmake-build-ubsan",
@@ -57,7 +62,8 @@
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-fsanitize=undefined,float-divide-by-zero,float-cast-overflow $env{DEV_OPTIONS} $env{WARNINGS}"
       }
-    }, {
+    },
+    {
       "name": "tsan",
       "displayName": "Thread Sanitizer",
       "binaryDir": "cmake-build-tsan",
@@ -65,7 +71,8 @@
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-fsanitize=thread $env{DEV_OPTIONS} $env{WARNINGS}"
       }
-    }, {
+    },
+    {
       "name": "msan",
       "displayName": "Memory Sanitizer",
       "binaryDir": "cmake-build-msan",
@@ -80,23 +87,28 @@
       "name": "release",
       "displayName": "Release Build",
       "configurePreset": "release"
-    }, {
+    },
+    {
       "name": "debug",
       "displayName": "Debug Build",
       "configurePreset": "debug"
-    }, {
+    },
+    {
       "name": "asan",
       "displayName": "Address Sanitizer",
       "configurePreset": "asan"
-    }, {
+    },
+    {
       "name": "ubsan",
       "displayName": "Undefined Behavior Sanitizer",
       "configurePreset": "ubsan"
-    }, {
+    },
+    {
       "name": "tsan",
       "displayName": "Thread Sanitizer",
       "configurePreset": "tsan"
-    }, {
+    },
+    {
       "name": "msan",
       "displayName": "Memory Sanitizer",
       "configurePreset": "msan"
@@ -107,26 +119,31 @@
       "name": "release",
       "displayName": "Release Build",
       "configurePreset": "release"
-    }, {
+    },
+    {
       "name": "debug",
       "displayName": "Debug Build",
       "configurePreset": "debug"
-    }, {
+    },
+    {
       "name": "asan",
       "displayName": "Address Sanitizer",
       "configurePreset": "asan",
       "environment": {
         "ASAN_OPTIONS": "detect_invalid_pointer_pairs=2:detect_leaks=1:detect_stack_use_after_return=1:strict_string_checks=1:strict_init_order=1:check_initialization_order=1"
       }
-    }, {
+    },
+    {
       "name": "ubsan",
       "displayName": "Undefined Behavior Sanitizer",
       "configurePreset": "ubsan"
-    }, {
+    },
+    {
       "name": "tsan",
       "displayName": "Thread Sanitizer",
       "configurePreset": "tsan"
-    }, {
+    },
+    {
       "name": "msan",
       "displayName": "Memory Sanitizer",
       "configurePreset": "msan"

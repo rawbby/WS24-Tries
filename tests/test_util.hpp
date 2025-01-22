@@ -8,7 +8,9 @@
 #if defined(_MSC_VER)
 #define DEBUG_BREAK() __debugbreak()
 #else
+
 #include <csignal>
+
 #define DEBUG_BREAK() raise(SIGTRAP)
 #endif
 #else
@@ -25,9 +27,8 @@
                    "[ASSERTION FAILED]\n"                                                                                                                                          \
                    "  Condition  : " #cond "\n"                                                                                                                                    \
                    "  Location   : " __FILE__ ":" TOSTRING(__LINE__) "\n");                                                                                                        \
-      if (sizeof(#__VA_ARGS__) > 1) {                                                                                                                                              \
-        std::fprintf(stderr, "  Details   : ");                                                                                                                                    \
-        std::fprintf(stderr, "" __VA_ARGS__);                                                                                                                                      \
+      if constexpr (sizeof(#__VA_ARGS__) > 1) {                                                                                                                                              \
+        std::fprintf(stderr, "  Details   : " __VA_ARGS__);                                                                                                                                      \
         std::fprintf(stderr, "\n");                                                                                                                                                \
       }                                                                                                                                                                            \
       DEBUG_BREAK();                                                                                                                                                               \
@@ -53,9 +54,8 @@
                    "  Condition  : " #lhs " " op " " #rhs "\n"                                                                                                                     \
                    "  Location   : " __FILE__ ":" TOSTRING(__LINE__) "\n");                                                                                                        \
     }                                                                                                                                                                              \
-    if (sizeof(#__VA_ARGS__) > 1) {                                                                                                                                                \
-      std::fprintf(stderr, "  Details   : ");                                                                                                                                      \
-      std::fprintf(stderr, "" __VA_ARGS__);                                                                                                                                        \
+    if constexpr (sizeof(#__VA_ARGS__) > 1) {                                                                                                                                                \
+      std::fprintf(stderr, "  Details   : " __VA_ARGS__);                                                                                                                                        \
       std::fprintf(stderr, "\n");                                                                                                                                                  \
     }                                                                                                                                                                              \
     DEBUG_BREAK();                                                                                                                                                                 \
