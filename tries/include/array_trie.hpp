@@ -7,7 +7,7 @@ class ArrayTrie {
 private:
     struct Node {
         bool is_end = false;
-        std::unique_ptr<Node> children[256];
+        std::unique_ptr<Node> children['z' + 1];
 
         Node() : is_end(false) {}
     };
@@ -52,7 +52,6 @@ public:
     }
 
 private:
-
     [[nodiscard]] bool removeHelper(Node *node, const std::string &word, std::size_t index) {
         if (!node) return false;
         if (index == word.size()) {
