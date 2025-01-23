@@ -113,17 +113,17 @@ int main(int argc, char **argv) {
     }
 
     const auto start_queries = timestamp();
-    for (const auto &query: queries) {
+    for (const auto &[word, operation]: queries) {
         bool res = false;
-        switch (query.second) {
+        switch (operation) {
             case 'c':
-                res = trie->contains(query.first);
+                res = trie->contains(word);
                 break;
             case 'i':
-                res = trie->insert(query.first);
+                res = trie->insert(word);
                 break;
             case 'd':
-                res = trie->remove(query.first);
+                res = trie->remove(word);
                 break;
             default:
                 break;
