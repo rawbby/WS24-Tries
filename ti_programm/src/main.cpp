@@ -18,6 +18,13 @@ auto millis(auto time_difference) {
     return std::chrono::duration_cast<std::chrono::milliseconds>(time_difference).count();
 }
 
+std::pair<std::string, std::string> split_filename(const std::string &path) {
+    for (std::size_t i = path.size() - 1; i > 0; --i)
+        if (path[i] == '/' || path[i] == '\\')
+            return {path.substr(0, i), path.substr(i + 1, path.size() - i - 1)};
+    return {".", path.substr(0, path.size())};
+}
+
 int main(int argc, char **argv) {
     if (argc != 4) {
         std::cerr << "Usage: ti_programm -variant_value=<1|2|3> <eingabe_datei> <query_datei>" << std::endl;
@@ -26,8 +33,8 @@ int main(int argc, char **argv) {
 
     const auto variant_param = std::string{argv[1]};
     const auto variant_value = variant_param.back() - '0';
-    const auto input_file = std::string{argv[2]};
-    const auto query_file = std::string{argv[3]};
+    const auto input_path = std::string{argv[2]};
+    const auto query_path = std::string{argv[3]};
 
     std::unique_ptr<TrieInterface> trie;
     std::string variant_name;
@@ -50,10 +57,10 @@ int main(int argc, char **argv) {
     }
 
     auto input_words = std::vector<std::string>{};
-    auto input_stream = std::ifstream{input_file};
+    auto input_stream = std::ifstream{input_path};
 
     if (!input_stream) {
-        std::cerr << "Error opening " << input_file << std::endl;
+        std::cerr << "Error opening " << input_path << std::endl;
         std::exit(1);
     }
 
@@ -76,24 +83,23 @@ int main(int argc, char **argv) {
     const auto end_construction = timestamp();
     const auto time_construction_ms = millis(end_construction - start_construction);
 
-    double memoryPeakMiB = 0.0; // placeholder
+    auto memory_peak = static_cast<double>(trie->size()) / 1048576.0;
 
     auto queries = std::vector<std::pair<std::string, char> >{};
-    auto query_stream = std::ifstream{query_file};
+    auto query_stream = std::ifstream{query_path};
 
     if (!query_stream) {
-        std::cerr << "Error opening " << query_file << std::endl;
+        std::cerr << "Error opening " << query_path << std::endl;
         std::exit(1);
     }
 
-    char operation;
     while (std::getline(query_stream, line)) {
         while (!line.empty() && !std::isalnum(line.back()))
             line.pop_back();
         if (line.empty())
             continue;
 
-        operation = line.back();
+        char operation = line.back();
         line.pop_back();
 
         while (!line.empty() && !std::isalnum(line.back()))
@@ -104,11 +110,12 @@ int main(int argc, char **argv) {
         queries.emplace_back(line, operation);
     }
 
-    const auto result_filename = std::string{"result_" + input_file + ".txt"};
-    auto result_stream = std::ofstream{result_filename};
+    const auto [input_dir, input_filename] = split_filename(input_path);
+    const auto result_path = std::string{"./result_" + input_filename};
+    auto result_stream = std::ofstream{result_path};
 
     if (!result_stream) {
-        std::cerr << "Error opening " << result_filename << std::endl;
+        std::cerr << "Error opening " << result_path << std::endl;
         std::exit(1);
     }
 
@@ -135,6 +142,6 @@ int main(int argc, char **argv) {
 
     std::cout << "RESULT name=Robert trie_variant=" << variant_name
             << " trie_construction_time=" << time_construction_ms
-            << " trie_construction_memory=" << memoryPeakMiB
+            << " trie_construction_memory=" << memory_peak
             << " query_time=" << time_queries_ms << std::endl;
 }

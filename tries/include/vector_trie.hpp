@@ -8,13 +8,14 @@ class VectorTrie {
 private:
     struct Node {
         bool is_end = false;
-        std::vector<std::pair<unsigned char, std::unique_ptr<Node>>> children;
+        std::vector<std::pair<unsigned char, std::unique_ptr<Node> > > children;
     };
 
     std::unique_ptr<Node> root;
 
 public:
-    VectorTrie() : root(std::make_unique<Node>()) {}
+    VectorTrie() : root(std::make_unique<Node>()) {
+    }
 
     // Insert a word (excluding trailing 0-byte or '$')
     bool insert(const std::string &word) {
@@ -64,6 +65,10 @@ public:
         return removeHelper(root.get(), word, 0);
     }
 
+    [[nodiscard]] std::size_t size() const {
+        return sizeHelper(root.get());
+    }
+
 private:
     // Recursive helper for remove
     bool removeHelper(Node *node, const std::string &word, size_t index) {
@@ -74,7 +79,7 @@ private:
             // Return true if this node has no children (caller can prune)
             return node->children.empty();
         }
-        auto c = static_cast<unsigned char> (word[index]);
+        auto c = static_cast<unsigned char>(word[index]);
         auto it = std::find_if(node->children.begin(), node->children.end(),
                                [c](auto &p) { return p.first == c; });
         if (it == node->children.end()) {
@@ -90,5 +95,14 @@ private:
             return (node->children.empty() && !node->is_end);
         }
         return false;
+    }
+
+    [[nodiscard]] std::size_t sizeHelper(const Node *node) const {
+        if (!node) return 0;
+        std::size_t total = sizeof(*node);
+        for (auto &child: node->children) {
+            total += sizeHelper(child.second.get());
+        }
+        return total;
     }
 };

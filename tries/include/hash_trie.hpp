@@ -7,13 +7,14 @@ class HashTrie {
 private:
     struct Node {
         bool is_end = false;
-        std::unordered_map<unsigned char, std::unique_ptr<Node>> children;
+        std::unordered_map<unsigned char, std::unique_ptr<Node> > children;
     };
 
     std::unique_ptr<Node> root;
 
 public:
-    HashTrie() : root(std::make_unique<Node>()) {}
+    HashTrie() : root(std::make_unique<Node>()) {
+    }
 
     bool insert(const std::string &word) {
         Node *curr = root.get();
@@ -52,6 +53,10 @@ public:
         return removeHelper(root.get(), word, 0);
     }
 
+    [[nodiscard]] std::size_t size() const {
+        return sizeHelper(root.get());
+    }
+
 private:
     bool removeHelper(Node *node, const std::string &word, size_t index) {
         if (!node) return false;
@@ -71,5 +76,14 @@ private:
             return (!node->is_end && node->children.empty());
         }
         return false;
+    }
+
+    [[nodiscard]] std::size_t sizeHelper(const Node *node) const {
+        if (!node) return 0;
+        std::size_t total = sizeof(*node);
+        for (auto &pair: node->children) {
+            total += sizeHelper(pair.second.get());
+        }
+        return total;
     }
 };
