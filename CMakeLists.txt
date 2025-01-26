@@ -6,7 +6,7 @@ project(Trie
 
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/bootstrap.cmake")
     file(DOWNLOAD
-            "https://raw.githubusercontent.com/rawbby/cmake_utilities/refs/tags/v2.1.4/bootstrap.cmake"
+            "https://raw.githubusercontent.com/rawbby/cmake_utilities/refs/tags/v2.1.5/bootstrap.cmake"
             "${CMAKE_BINARY_DIR}/bootstrap.cmake")
 endif ()
 
