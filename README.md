@@ -17,6 +17,7 @@ These implementations support operations such as `insert`, `contains`, and `remo
 
 - A C++ compiler (supporting at least C++20)
 - [CMake](https://cmake.org/) for building
+- [Python3](https://python.org/) for benchmarks and plotting (not yet included)
 
 ### Dependencies
 
