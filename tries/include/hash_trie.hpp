@@ -90,9 +90,11 @@ private:
     if (!node)
       return 0;
     std::size_t total = sizeof(*node);
-    for (auto& pair : node->children) {
+    // approximate map allocated bytes
+    total += node->children.bucket_count() * sizeof(void*);
+    total += node->children.size() * (sizeof(unsigned char) + sizeof(std::unique_ptr<Node>) + 2 * sizeof(void*));
+    for (auto& pair : node->children)
       total += sizeHelper(pair.second.get());
-    }
     return total;
   }
 };

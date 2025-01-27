@@ -132,9 +132,8 @@ private:
       return 0;
     }
     std::size_t total = sizeof(*node);
-    for (auto& child : node->children) {
+    for (auto& child : node->children)
       total += sizeHelper(child.get());
-    }
     return total;
   }
 };

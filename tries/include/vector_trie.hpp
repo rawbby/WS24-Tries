@@ -108,6 +108,7 @@ private:
     if (!node)
       return 0;
     std::size_t total = sizeof(*node);
+    total += node->children.capacity() * sizeof(std::pair<unsigned char, std::unique_ptr<Node>>);
     for (auto& child : node->children) {
       total += sizeHelper(child.second.get());
     }
