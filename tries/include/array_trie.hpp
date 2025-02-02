@@ -57,7 +57,7 @@ public:
   {
   }
 
-  [[nodiscard]] bool insert(const std::string& word)
+  bool insert(const std::string& word)
   {
     Node* curr = root.get();
     bool insertedNewNode = false;
@@ -89,7 +89,7 @@ public:
     return curr->is_end;
   }
 
-  [[nodiscard]] bool remove(const std::string& word) { return removeHelper(root.get(), word, 0); }
+  bool remove(const std::string& word) { return removeHelper(root.get(), word, 0); }
 
   [[nodiscard]] std::size_t size() const { return sizeHelper(root.get()); }
 
